@@ -19,7 +19,7 @@ function LecturaPromedio (núm: number) {
 }
 function Tocar (Notas: number) {
     music.stopAllSounds()
-    indicenota = Math.map(Notas, 0, 1023, listadetonos.length, 0)
+    indicenota = Math.map(Notas, 0, 1023, Tamaño, 0)
     if (Onda == 0) {
         music.play(music.createSoundExpression(
         WaveShape.Sine,
@@ -77,6 +77,127 @@ function Tocar (Notas: number) {
         ), music.PlaybackMode.InBackground)
     }
 }
+input.onButtonPressed(Button.AB, function () {
+    Escala += 1
+    if (Escala > 3) {
+        Escala = 0
+    }
+    if (Escala == 0) {
+        listadetonos = [
+        131,
+        147,
+        156,
+        175,
+        196,
+        208,
+        233,
+        262,
+        294,
+        311,
+        349,
+        392,
+        415,
+        466,
+        523,
+        587,
+        622,
+        698,
+        784,
+        831,
+        932
+        ]
+        Tamaño = 21
+    } else if (Escala == 1) {
+        listadetonos = [
+        131,
+        147,
+        165,
+        175,
+        196,
+        220,
+        247,
+        262,
+        294,
+        330,
+        349,
+        392,
+        440,
+        494,
+        523,
+        587,
+        659,
+        698,
+        784,
+        880,
+        988
+        ]
+        Tamaño = 21
+    } else if (Escala == 2) {
+        listadetonos = [
+        131,
+        147,
+        156,
+        165,
+        196,
+        208,
+        220,
+        262,
+        294,
+        311,
+        330,
+        392,
+        415,
+        440,
+        523,
+        587,
+        622,
+        659,
+        784,
+        831,
+        880
+        ]
+        Tamaño = 21
+    } else {
+        listadetonos = [
+        131,
+        139,
+        147,
+        156,
+        165,
+        175,
+        185,
+        196,
+        208,
+        220,
+        233,
+        247,
+        262,
+        277,
+        294,
+        311,
+        330,
+        349,
+        392,
+        415,
+        440,
+        466,
+        494,
+        523,
+        554,
+        587,
+        622,
+        659,
+        698,
+        740,
+        784,
+        831,
+        880,
+        932,
+        988
+        ]
+        Tamaño = 36
+    }
+})
 input.onButtonPressed(Button.B, function () {
     Probabilidad_de_salto += 1
     if (Probabilidad_de_salto > 9) {
@@ -87,8 +208,11 @@ let indicenota = 0
 let Suma = 0
 let Onda = 0
 let foo = 0
+let Tamaño = 0
 let listadetonos: number[] = []
 let Probabilidad_de_salto = 0
+let Escala = 0
+Escala = 0
 Probabilidad_de_salto = 0
 led.enable(false)
 music.setTempo(120)
@@ -111,23 +235,24 @@ listadetonos = [
 466,
 523,
 587,
-0,
+659,
 698,
 784,
 831,
 932
 ]
+Tamaño = 21
 while (true) {
     for (let value of lista) {
         foo = pins.analogReadPin(value)
         while (pins.digitalReadPin(DigitalPin.P6) == 1) {
-        	
+            pins.digitalWritePin(DigitalPin.P12, 1)
         }
         if (Probabilidad_de_salto < randint(1, 10)) {
             Tocar(pins.analogReadPin(value))
         }
         while (pins.digitalReadPin(DigitalPin.P6) == 0) {
-        	
+            pins.digitalWritePin(DigitalPin.P12, 0)
         }
     }
 }
