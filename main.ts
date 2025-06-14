@@ -216,8 +216,14 @@ Escala = 0
 Probabilidad_de_salto = 0
 led.enable(false)
 music.setTempo(120)
-pins.setPull(DigitalPin.P6, PinPullMode.PullDown)
-let lista = [AnalogPin.P1, AnalogPin.P2, AnalogPin.P3]
+pins.setPull(DigitalPin.P13, PinPullMode.PullDown)
+let lista = [
+AnalogPin.P1,
+AnalogPin.P2,
+AnalogPin.P3,
+AnalogPin.P4,
+AnalogPin.P10
+]
 listadetonos = [
 131,
 147,
@@ -245,13 +251,13 @@ Tamaño = 21
 while (true) {
     for (let value of lista) {
         foo = pins.analogReadPin(value)
-        while (pins.digitalReadPin(DigitalPin.P6) == 1) {
+        while (pins.digitalReadPin(DigitalPin.P13) == 1) {
             pins.digitalWritePin(DigitalPin.P12, 1)
         }
         if (Probabilidad_de_salto < randint(1, 10)) {
             Tocar(pins.analogReadPin(value))
         }
-        while (pins.digitalReadPin(DigitalPin.P6) == 0) {
+        while (pins.digitalReadPin(DigitalPin.P13) == 0) {
             pins.digitalWritePin(DigitalPin.P12, 0)
         }
     }
